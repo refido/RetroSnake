@@ -1,17 +1,19 @@
 // Define html elements as variables for easy access in the script file
 const board = document.getElementById('game-board');
+const instructions = document.getElementById('instruction-text');
+const logo = document.getElementById('logo');
 
 // Define game variables
 let gridSize = 20; // Size of the game board
 let snake = [{ x: 11, y: 11 }]; // Snake starting position
-let food = generateRandomPosition(); // Food starting position
+let food = generateFood(); // Food starting position
 let direction = 'right'; // Snake starting direction
-// let direction = 'left'; 
-// let direction = 'up'; 
-// let direction = 'down'; 
+let gameInterval;
+let gameSpeed = 200; // Time between each move in milliseconds
+let gameStarted = false;
 
 // Generate a random position for the food
-function generateRandomPosition() {
+function generateFood() {
     const position = {
         x: Math.floor(Math.random() * gridSize) + 1, // Random number between 1 and 20
         y: Math.floor(Math.random() * gridSize) + 1,
@@ -57,7 +59,7 @@ function draw() {
 
 // Move the snake
 function move() {
-    const head = snake[0]; // Get the head of the snake
+    const head = { ...snake[0] }; // Create a copy of the snake head
     switch (direction) {
         case 'right':
             head.x++; // Move the snake right by incrementing the x position, e.g. from (1, 1) to (2, 1)
@@ -75,11 +77,63 @@ function move() {
             break;
     }
     snake.unshift(head); // add the new head to make it look like it's moving
-    snake.pop(); // remove the snake in the last position to make it look like it's moving
+    // snake.pop(); // remove the snake in the last position to make it look like it's moving
+
+    // Check if the snake has eaten the food
+    if (head.x === food.x && head.y === food.y) {
+        food = generateFood();
+        clearInterval();
+        gameInterval = setInterval(() => {
+            move();
+            draw();
+        }, gameSpeed);
+    } else {
+        snake.pop(); // remove the snake in the last position to make it look like it's moving
+    }
 }
 
+// start the game
+function startGame() {
+    gameStarted = true; // keep track of whether the game has started
+    instructions.style.display = 'none'; // hide the instructions
+    logo.style.display = 'none'; // hide the logo
+    setInterval(() => {
+        move();
+        draw();
+    }, gameSpeed);
+}
+
+// Handle keypresses
+function handleKeyPress(event) {
+    if ((!gameStarted && (event.key === 'Space')) || (!gameStarted) && (event.key === ' ')) {
+        startGame();
+    } else {
+        switch (event.key) {
+            case 'ArrowRight':
+                direction = 'right';
+                break;
+            case 'ArrowLeft':
+                direction = 'left';
+                break;
+            case 'ArrowUp':
+                direction = 'up';
+                break;
+            case 'ArrowDown':
+                direction = 'down';
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+// Add event listeners
+document.addEventListener('keydown', handleKeyPress);
+
 // Test the function
-setInterval(() => {
-    move();
-    draw();
-}, 200);
+// draw();
+// startGame();
+// setInterval(() => {
+//     move();
+//     draw();
+// }, 200);
