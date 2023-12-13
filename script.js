@@ -2,13 +2,15 @@
 const board = document.getElementById('game-board');
 const instructions = document.getElementById('instruction-text');
 const logo = document.getElementById('logo');
+const score = document.getElementById('score');
+const highScore = document.getElementById('high-score');
 
 // Define game variables
-let gridSize = 20; // Size of the game board
-let snake = [{ x: 11, y: 11 }]; // Snake starting position
+const gridSize = 20; // Size of the game board
+let snake = [{ x: 10, y: 10 }]; // Snake starting position
 let food = generateFood(); // Food starting position
 let direction = 'right'; // Snake starting direction
-let gameInterval;
+let gameInterval; // Variable to store the setInterval function
 let gameSpeed = 200; // Time between each move in milliseconds
 let gameStarted = false;
 
@@ -45,9 +47,11 @@ function drawSnake() {
 
 // Draw the food on the board
 function drawFood() {
-    const foodElement = createGameElement('div', 'food');
-    setPosition(foodElement, food);
-    board.appendChild(foodElement);
+    if (gameStarted) {
+        const foodElement = createGameElement('div', 'food');
+        setPosition(foodElement, food);
+        board.appendChild(foodElement);
+    }
 }
 
 // Draw the game board, snake, and food
@@ -55,6 +59,7 @@ function draw() {
     board.innerHTML = ''; // Clear the board
     drawSnake();
     drawFood();
+    updateScore();
 }
 
 // Move the snake
@@ -77,14 +82,15 @@ function move() {
             break;
     }
     snake.unshift(head); // add the new head to make it look like it's moving
-    // snake.pop(); // remove the snake in the last position to make it look like it's moving
 
     // Check if the snake has eaten the food
     if (head.x === food.x && head.y === food.y) {
         food = generateFood();
-        clearInterval();
+        speed();
+        clearInterval(gameInterval);
         gameInterval = setInterval(() => {
             move();
+            checkCollision();
             draw();
         }, gameSpeed);
     } else {
@@ -92,15 +98,74 @@ function move() {
     }
 }
 
-// start the game
+// Adjust the game speed
+function speed() {    
+    if (gameSpeed > 150) {
+        gameSpeed -= 5;
+    } else if (gameSpeed > 100) {
+        gameSpeed -= 3;
+    } else if (gameSpeed > 50) {
+        gameSpeed -= 2;
+    } else if (gameSpeed > 25) {
+        gameSpeed -= 1;
+    }
+}
+
+// Check if the snake has hit the wall or itself
+function checkCollision() {
+    const head = snake[0];
+    if (head.x < 1 || head.x > gridSize || head.y < 1 || head.y > gridSize) {
+        gameOver();
+    }
+    for (let i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+            gameOver();
+        }
+    }
+}
+
+// Start the game
 function startGame() {
     gameStarted = true; // keep track of whether the game has started
     instructions.style.display = 'none'; // hide the instructions
     logo.style.display = 'none'; // hide the logo
-    setInterval(() => {
+    speed();
+    clearInterval(gameInterval);
+    gameInterval = setInterval(() => {
         move();
+        checkCollision();
         draw();
     }, gameSpeed);
+}
+
+// Update the score
+function updateScore() {
+    const currentScore = snake.length - 1;
+    score.textContent = currentScore.toString().padStart(4, '0');
+}
+
+// Update the high score
+function updateHighScore() {
+    highScore.textContent = score.textContent > highScore.textContent ? score.textContent + '👑' : highScore.textContent;
+    highScore.style.display = 'block';
+}
+
+// End the game
+function gameOver() {
+    updateHighScore();
+    stopGame();
+    snake = [{ x: 10, y: 10 }]; // reset the snake position
+    food = generateFood(); // reset the food position
+    direction = 'right'; // reset the snake direction
+    gameSpeed = 200; // reset the game speed
+}
+
+// Stop the game
+function stopGame() {
+    clearInterval(gameInterval); // stop the game
+    gameStarted = false; // reset the gameStarted variable
+    instructions.style.display = 'block'; // show the instructions
+    logo.style.display = 'block'; // show the logo
 }
 
 // Handle keypresses
@@ -129,11 +194,3 @@ function handleKeyPress(event) {
 
 // Add event listeners
 document.addEventListener('keydown', handleKeyPress);
-
-// Test the function
-// draw();
-// startGame();
-// setInterval(() => {
-//     move();
-//     draw();
-// }, 200);
