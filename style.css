@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     align-items: center;
@@ -51,23 +55,27 @@ body,
 
 .scores {
     display: flex;
-    justify-content: space-between;    
+    justify-content: space-between;
+    align-items: center;
 }
 
-#score, #timer {
-    color: #F3EEEA;    
+#score,
+#timer {
+    color: #F3EEEA;
 }
 
-#score, #timer,
+#score,
+#timer,
 #high-score {
     font-size: 40px;
     font-weight: bolder;
     margin: 10px 0;
+    line-height: 30px;
 }
 
 #high-score {
     color: #FFB000;
-    display: none;        
+    display: none;
 }
 
 .game-border-3,
@@ -95,7 +103,7 @@ body,
 
     /* Add responsive styles for screens up to 768px */
     body {
-        font-size: 10px;
+        font-size: 10px;        
     }
 
     #game-board {
@@ -112,9 +120,11 @@ body,
     #instruction-text {
         width: 200px;
         padding: 5px;
+        height: 10px;
     }
 
     #score,
+    #timer,
     #high-score {
         font-size: 30px;
     }
@@ -130,7 +140,7 @@ body,
 
     /* Add responsive styles for screens up to 480px */
     body {
-        font-size: 8px;
+        font-size: 8px;        
     }
 
     #game-board {
@@ -150,6 +160,7 @@ body,
     }
 
     #score,
+    #timer,
     #high-score {
         font-size: 20px;
     }

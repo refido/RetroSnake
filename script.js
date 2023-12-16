@@ -169,7 +169,7 @@ function timerStart() {
 
 // Update the high score
 function updateHighScore() {
-    highScore.textContent = score.textContent > highScore.textContent ? score.textContent : highScore.textContent;
+    highScore.textContent = score.textContent > highScore.textContent ? score.textContent + '👑' : highScore.textContent;
     highScore.style.display = 'block';
 }
 
