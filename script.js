@@ -4,6 +4,7 @@ const instructions = document.getElementById('instruction-text');
 const logo = document.getElementById('logo');
 const score = document.getElementById('score');
 const highScore = document.getElementById('high-score');
+const timer = document.getElementById('timer');
 
 // Define game variables
 const gridSize = 20; // Size of the game board
@@ -13,6 +14,7 @@ let direction = 'right'; // Snake starting direction
 let gameInterval; // Variable to store the setInterval function
 let gameSpeed = 200; // Time between each move in milliseconds
 let gameStarted = false;
+let time; // Variable to store the setInterval function
 
 // Generate a random position for the food
 function generateFood() {
@@ -136,6 +138,7 @@ function startGame() {
         checkCollision();
         draw();
     }, gameSpeed);
+    timerStart();
 }
 
 // Update the score
@@ -144,9 +147,29 @@ function updateScore() {
     score.textContent = currentScore.toString().padStart(4, '0');
 }
 
+// timer
+function timerStart() {    
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+    clearInterval(time);
+    time = setInterval(() => {  
+        seconds++;
+        if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+        }
+        if (minutes === 60) {
+            minutes = 0;
+            hours++;
+        }
+        timer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }, 1000);
+}
+
 // Update the high score
 function updateHighScore() {
-    highScore.textContent = score.textContent > highScore.textContent ? score.textContent + '👑' : highScore.textContent;
+    highScore.textContent = score.textContent > highScore.textContent ? score.textContent : highScore.textContent;
     highScore.style.display = 'block';
 }
 
@@ -157,12 +180,14 @@ function gameOver() {
     snake = [{ x: 10, y: 10 }]; // reset the snake position
     food = generateFood(); // reset the food position
     direction = 'right'; // reset the snake direction
-    gameSpeed = 200; // reset the game speed
+    gameSpeed = 200; // reset the game speed    
 }
 
 // Stop the game
 function stopGame() {
     clearInterval(gameInterval); // stop the game
+    clearInterval(time); // stop the timer
+    timer.textContent = '00:00:00'; // reset the timer
     gameStarted = false; // reset the gameStarted variable
     instructions.style.display = 'block'; // show the instructions
     logo.style.display = 'block'; // show the logo

@@ -54,12 +54,11 @@ body,
     justify-content: space-between;    
 }
 
-#score {
-    color: #F3EEEA;
-    height: 50px;
+#score, #timer {
+    color: #F3EEEA;    
 }
 
-#score,
+#score, #timer,
 #high-score {
     font-size: 40px;
     font-weight: bolder;
