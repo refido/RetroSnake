@@ -101,7 +101,7 @@ function move() {
 }
 
 // Adjust the game speed
-function speed() {    
+function speed() {
     if (gameSpeed > 150) {
         gameSpeed -= 5;
     } else if (gameSpeed > 100) {
@@ -147,13 +147,13 @@ function updateScore() {
     score.textContent = currentScore.toString().padStart(4, '0');
 }
 
-// timer
-function timerStart() {    
+// Timer
+function timerStart() {
     let seconds = 0;
     let minutes = 0;
     let hours = 0;
     clearInterval(time);
-    time = setInterval(() => {  
+    time = setInterval(() => {
         seconds++;
         if (seconds === 60) {
             seconds = 0;
@@ -217,5 +217,40 @@ function handleKeyPress(event) {
     }
 }
 
+// Handle touch
+function handleTouch(event) {
+    let startX, startY; // Variables to store the start x and y positions of the touch
+
+    ontouchstart = event => {
+        startX = event.touches[0].clientX; // Get the x position of the touch
+        startY = event.touches[0].clientY; // Get the y position of the touch        
+        if (!gameStarted) { // Start the game if it hasn't started yet
+            startGame();
+        }
+    }
+
+    ontouchmove = event => {
+        const endX = event.touches[0].clientX; // Get the x position of the touch
+        const endY = event.touches[0].clientY; // Get the y position of the touch
+        const deltaX = endX - startX; // Calculate the difference between the start and end x positions
+        const deltaY = endY - startY; // Calculate the difference between the start and end y positions
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) { // Check if the movement is horizontal or vertical
+            if (deltaX > 0) {
+                direction = 'right';
+            } else {
+                direction = 'left';
+            }
+        } else {
+            if (deltaY < 0) {
+                direction = 'up';
+            } else {
+                direction = 'down';
+            }
+        }
+    }
+}
+
 // Add event listeners
 document.addEventListener('keydown', handleKeyPress);
+document.addEventListener('touchstart', handleTouch);
