@@ -50,7 +50,7 @@ function drawSnake() {
 // Draw the food on the board
 function drawFood() {
     if (gameStarted) {
-        const foodElement = createGameElement('div', 'food');
+        const foodElement = createGameElement('div', 'food blink');
         setPosition(foodElement, food);
         board.appendChild(foodElement);
     }

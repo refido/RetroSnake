@@ -3,12 +3,13 @@
 }
 
 body {
+    /* Center the content of the body both vertically and horizontally */
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: 'VT323', monospace;
     height: 100vh;
     margin: 0;
-    font-family: 'VT323', monospace;
 }
 
 body,
@@ -17,40 +18,48 @@ body,
 }
 
 #game-board {
-    border-radius: 100px;
     display: grid;
-    grid-template-columns: repeat(20, 20px);
-    grid-template-rows: repeat(20, 20px);
-    margin: 5px;
+    /* 40% of viewport width */
+    width: 40vw;
+    /* 70% of viewport height */
+    height: 70vh;
+    /* relative to viewport width */
+    border-radius: 5vw;
+    /* relative to the grid container */
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    /* relative to the font size of the parent element */
+    margin: 1em;
 }
 
 .game-border-1 {
-    border: #776B5D solid 10px;
-    border-radius: 30px;
-    box-shadow: inset 0 0 0 10px #776B5D;
+    border: 0.8vw solid #776B5D;
+    border-radius: 3vw;
+    box-shadow: inset 0 0 0 2vw #776B5D;
 }
 
 .game-border-2 {
-    border: #B0A695 solid 8px;
-    border-radius: 26px;
-    box-shadow: inset 0 0 0 10px #B0A695;
+    border: 0.6vw solid #B0A695;
+    border-radius: 2.5vw;
+    box-shadow: inset 0 0 0 2vw #B0A695;
 }
 
 .game-border-3 {
-    border: #EBE3D5 solid 30px;
-    border-radius: 20px;
-    box-shadow: inset 0 0 0 5px #EBE3D5;
+    border: 1vw solid #EBE3D5;
+    border-radius: 1.5vw;
+    box-shadow: inset 0 0 0 1vw #EBE3D5;
 }
 
 #instruction-text {
     position: absolute;
-    top: 60%;
     color: #333;
-    width: 300px;
     text-align: center;
     text-transform: capitalize;
-    padding: 30px;
+    font-size: 3vw;
+    top: 65%;
+    width: 35vw;
     margin: 0;
+    padding: 3vw;
 }
 
 .scores {
@@ -67,10 +76,10 @@ body,
 #score,
 #timer,
 #high-score {
-    font-size: 40px;
     font-weight: bolder;
-    margin: 10px 0;
-    line-height: 30px;
+    font-size: 2.5vw;
+    margin: 1vw 0;
+    line-height: 2vw;
 }
 
 #high-score {
@@ -84,109 +93,62 @@ body,
 }
 
 .snake {
-    border: #5a5a5a 1px dotted;
+    border: 0.01vw dotted #5a5a5a;
 }
 
 .food {
     background-color: #dedede;
-    border: #999 5px solid;
+    border: 0.05vw solid #999;
 }
 
 #logo {
     position: absolute;
-    width: 300px;
-    height: 200px;
+    width: 35vw;
+    height: 20vw;
 }
 
 /* Animation */
 .blink {
     animation: blink 1s steps(1, end) infinite;
-  }
-  
-  @keyframes blink {
+}
+
+@keyframes blink {
     0% {
-      opacity: 1;
+        opacity: 1;
     }
+
     50% {
-      opacity: 0;
+        opacity: 0;
     }
+
     100% {
-      opacity: 1;
-    }
-  }
-  
-
-/* Media Queries */
-@media screen and (max-width: 768px) {
-
-    /* Add responsive styles for screens up to 768px */
-    body {
-        font-size: 10px;        
-    }
-
-    #game-board {
-        grid-template-columns: repeat(20, 10px);
-        grid-template-rows: repeat(20, 10px);
-    }
-
-    .game-border-3 {
-        border: #EBE3D5 solid 10px;
-        border-radius: 20px;
-        box-shadow: inset 0 0 0 5px #EBE3D5;
-    }
-
-    #instruction-text {
-        width: 200px;
-        padding: 5px;
-        top: 55%;
-    }
-
-    #score,
-    #timer,
-    #high-score {
-        font-size: 30px;
-    }
-
-    #logo {
-        position: absolute;
-        width: 120px;
-        height: 100px;
+        opacity: 1;
     }
 }
 
+/* Media queries */
 @media screen and (max-width: 480px) {
 
     /* Add responsive styles for screens up to 480px */
-    body {
-        font-size: 8px;        
-    }
-
     #game-board {
-        grid-template-columns: repeat(20, 8px);
-        grid-template-rows: repeat(20, 8px);
-    }
-
-    .game-border-3 {
-        border: #EBE3D5 solid 10px;
-        border-radius: 20px;
-        box-shadow: inset 0 0 0 5px #EBE3D5;
-    }
-
-    #instruction-text {        
-        width: 150px;
-        padding: 5px;
-        top: 55%;
+        width: 60vw;
+        height: 35vh;
     }
 
     #score,
     #timer,
     #high-score {
-        font-size: 20px;
+        font-size: 5vw;
+    }
+
+    #instruction-text {
+        top: 60%;
+        font-size: 5vw;
+        width: 50vw;
     }
 
     #logo {
-        position: absolute;
-        width: 100px;
-        height: 80px;
+        width: 50vw;
+        height: 30vw;
     }
 }
