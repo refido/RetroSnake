@@ -251,6 +251,24 @@ function handleTouch(event) {
     }
 }
 
+// Snowfall effect
+function snow() {
+    const fragment = document.createDocumentFragment(); // Create a document fragment
+
+    for (let i = 0; i < 100; i++) {
+        let snowflake = document.createElement("div");
+        snowflake.classList.add("snowflake");
+        snowflake.style.left = Math.random() * window.innerWidth + "px";
+        snowflake.style.animationDelay = Math.random() * 5 + "s";
+        fragment.appendChild(snowflake); // Append snowflakes to the fragment
+    }
+    const snow = document.getElementsByClassName("snow")[0]; // Get the snow element    
+    snow.appendChild(fragment); // Append the fragment to the snow element    
+}
+
+// Start the snowfall effect
+snow();
+
 // Add event listeners
 document.addEventListener('keydown', handleKeyPress);
 document.addEventListener('touchstart', handleTouch);

@@ -126,6 +126,36 @@ body,
     }
 }
 
+.snow{
+    position: absolute;    
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Add z-index property to move the snow effect behind other components */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.snowflake {
+    position: absolute;
+    display: block;
+    background-color: #fff;
+    top: 0;
+    width: 1vw;
+    height: 1vw;
+    border-radius: 50%;
+    animation: snowfall 5s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
 /* Media queries */
 @media screen and (max-width: 480px) {
 
@@ -148,6 +178,7 @@ body,
     }
 
     #logo {
+        top: 40%;
         width: 50vw;
         height: 30vw;
     }
